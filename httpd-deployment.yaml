@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpd
+  template:
+    metadata:
+      labels:
+        app: httpd
+    spec:
+      containers:
+      - name: httpd
+        image: registry.access.redhat.com/ubi8/httpd-24
+        volumeMounts:
+        - name: httpd-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: httpd-storage
+        persistentVolumeClaim:
+          claimName: httpd-pvc
